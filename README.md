@@ -15,7 +15,7 @@ A command-line expense tracker built with Python and SQLite. Add expenses, brows
 ## Tech Used
 
 - **Python 3**
-- **SQLite** via Python's built-in `sqlite3` module
+- **SQLite** via Python's built-in `sqlite3` module 
 - `csv` and `datetime` from the standard library
 
 ## How to Run
