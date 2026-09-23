@@ -1,7 +1,4 @@
-"""
-Expense Tracker
-A simple command-line app to track spending, built with Python and SQLite.
-"""
+# Expense tracker - simple project using Python and SQLite
 
 import csv
 import sqlite3
@@ -10,12 +7,12 @@ from datetime import date, datetime
 DB_FILE = "expenses.db"
 
 
-# ---------- Database setup ----------
+# ---------- Database ----------
 
 def connect():
-    """Open (or create) the database file and return a connection."""
+    # opens the database (if it doesnt already exist it makes it)
     conn = sqlite3.connect(DB_FILE)
-    # This is SQL: it creates the table only if it doesn't exist yet.
+    # makes the expenses table the first time we run
     conn.execute(
         """
         CREATE TABLE IF NOT EXISTS expenses (
@@ -34,7 +31,7 @@ def connect():
 # ---------- Input helpers ----------
 
 def ask_amount():
-    """Keep asking until the user enters a valid positive number."""
+    # keeps asking until user types a valid number
     while True:
         try:
             amount = float(input("Amount: "))
@@ -46,13 +43,14 @@ def ask_amount():
 
 
 def ask_date():
-    """Ask for a date in YYYY-MM-DD format. Press Enter for today."""
+    # Enter = today's date, otherwise it must be YYYY-MM-DD
     while True:
         text = input("Date (YYYY-MM-DD, Enter for today): ").strip()
         if text == "":
             return date.today().isoformat()
         try:
-            datetime.strptime(text, "%Y-%m-%d")  # checks the format
+            # checks that the date is in the correct right format
+            datetime.strptime(text, "%Y-%m-%d")
             return text
         except ValueError:
             print("Invalid date. Example: 2026-09-23")
@@ -67,7 +65,7 @@ def add_expense(conn):
     description = input("Description: ").strip()
     amount = ask_amount()
 
-    # INSERT adds a new row. The ? marks are filled in safely by Python.
+    # save the new expense in the database
     conn.execute(
         "INSERT INTO expenses (date, category, description, amount) VALUES (?, ?, ?, ?)",
         (when, category, description, amount),
@@ -78,7 +76,7 @@ def add_expense(conn):
 
 def view_expenses(conn):
     print("\n--- All Expenses ---")
-    # SELECT reads rows. ORDER BY sorts them, newest first.
+    # get all expenses, keeping the newest first
     rows = conn.execute(
         "SELECT id, date, category, description, amount FROM expenses ORDER BY date DESC"
     ).fetchall()
@@ -104,7 +102,7 @@ def delete_expense(conn):
     if expense_id == 0:
         return
 
-    # DELETE removes rows that match the condition.
+    # delete the expense with this id
     cursor = conn.execute("DELETE FROM expenses WHERE id = ?", (expense_id,))
     conn.commit()
     if cursor.rowcount == 0:
@@ -115,7 +113,7 @@ def delete_expense(conn):
 
 def category_summary(conn):
     print("\n--- Spending by Category ---")
-    # GROUP BY lumps rows by category, and SUM adds up the amounts.
+    # add up the amounts for each category
     rows = conn.execute(
         "SELECT category, SUM(amount) FROM expenses GROUP BY category ORDER BY SUM(amount) DESC"
     ).fetchall()
@@ -138,7 +136,7 @@ def monthly_total(conn):
     if month == "":
         month = date.today().strftime("%Y-%m")
 
-    # LIKE '2026-09%' matches every date that starts with 2026-09.
+    # finds all dates starting with the month, like 2026-09
     result = conn.execute(
         "SELECT SUM(amount), COUNT(*) FROM expenses WHERE date LIKE ?",
         (month + "%",),
@@ -173,6 +171,7 @@ def export_csv(conn):
 def main():
     conn = connect()
 
+    # menu will keep running until the user picks 7 
     while True:
         print("\n===== EXPENSE TRACKER =====")
         print("1. Add expense")
