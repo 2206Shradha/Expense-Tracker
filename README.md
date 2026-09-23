@@ -14,7 +14,7 @@ A command-line expense tracker built with Python and SQLite. Add expenses, brows
 
 ## Tech Used
 
-- **Python 3** (no external libraries needed)
+- **Python 3**
 - **SQLite** via Python's built-in `sqlite3` module
 - `csv` and `datetime` from the standard library
 
@@ -23,7 +23,7 @@ A command-line expense tracker built with Python and SQLite. Add expenses, brows
 1. Install [Python 3](https://www.python.org/downloads/)
 2. Clone this repo:
    ```
-   git clone https://github.com/YOUR-USERNAME/expense-tracker.git
+   git clone https://github.com/2206Shradha/expense-tracker.git
    cd expense-tracker
    ```
 3. Run it:
@@ -52,14 +52,12 @@ Total              500.00
 
 ## What I Learned
 
-- Working with a relational database (creating tables, inserting, querying, grouping, deleting)
-- Using parameterized queries (`?`) to avoid SQL injection
-- Validating user input with loops and `try/except`
-- Structuring a program into small, single-purpose functions
+- Learned how to work with a database and perform basic operations like adding, viewing, and deleting expenses.
+- Learned how to check user input and handle errors using loops and try/except.
+- Learned how to break the program into smaller functions instead of putting everything in one place.
 
 ## Future Improvements
 
-- Monthly budgets with warnings
-- Edit existing expenses
-- Charts using matplotlib
-- A simple GUI or web version
+- Add monthly budgets and warnings when spending gets too high.
+- Add an option to edit expenses.
+- Maybe make a basic GUI or web version later.
